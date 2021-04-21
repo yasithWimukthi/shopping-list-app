@@ -18,7 +18,7 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AlertDialog.Builder Builder;
+    private AlertDialog.Builder builder;
     private AlertDialog dialog;
     private Button saveButton;
     private EditText itemName;
@@ -37,10 +37,24 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                createPopup();
             }
         });
+    }
+
+    private void createPopup(){
+        builder = new AlertDialog.Builder(this);
+        View popup = getLayoutInflater().inflate(R.layout.popup,null);
+        itemName = popup.findViewById(R.id.itemNameEditText);
+        itemQuantity = popup.findViewById(R.id.quantityEditText);
+        itemColor = popup.findViewById(R.id.quantityEditText);
+        itemSize = popup.findViewById(R.id.sizeEditText);
+
+        builder.setView(popup);
+        dialog = builder.create();
+        dialog.show();
     }
 
     @Override

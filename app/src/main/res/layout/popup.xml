@@ -25,36 +25,38 @@
                 android:layout_centerHorizontal="true"/>
 
             <EditText
-                android:id="@+id/itemNameTextView"
+                android:id="@+id/itemNameEditText"
                 android:layout_below="@+id/enterItemTextView"
                 android:hint="@string/enterItemHint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <EditText
-                android:id="@+id/quantityTextView"
-                android:layout_below="@+id/itemNameTextView"
+                android:id="@+id/quantityEditText"
+                android:layout_below="@+id/itemNameEditText"
                 android:hint="@string/quantityHint"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <EditText
-                android:id="@+id/colorTextView"
-                android:layout_below="@+id/quantityTextView"
+                android:id="@+id/colorEditText"
+                android:layout_below="@+id/quantityEditText"
                 android:hint="@string/colorHint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <EditText
-                android:id="@+id/sizeTextView"
-                android:layout_below="@+id/colorTextView"
+                android:id="@+id/sizeEditText"
+                android:layout_below="@+id/colorEditText"
                 android:hint="@string/sizeHint"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/saveBtn"
-                android:layout_below="@+id/sizeTextView"
+                android:layout_below="@+id/sizeEditText"
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
                 android:text="@string/save_button"
