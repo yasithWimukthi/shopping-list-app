@@ -51,10 +51,20 @@ public class MainActivity extends AppCompatActivity {
         itemQuantity = popup.findViewById(R.id.quantityEditText);
         itemColor = popup.findViewById(R.id.quantityEditText);
         itemSize = popup.findViewById(R.id.sizeEditText);
+        saveButton = popup.findViewById(R.id.saveBtn);
 
         builder.setView(popup);
         dialog = builder.create();
         dialog.show();
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                saveShoppingItem();
+            }
+        });
+
     }
 
     @Override
@@ -66,5 +76,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         return super.onOptionsItemSelected(item);
+    }
+
+    public void saveShoppingItem(){
+
     }
 }
