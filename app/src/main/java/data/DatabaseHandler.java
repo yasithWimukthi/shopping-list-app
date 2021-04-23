@@ -2,6 +2,7 @@ package data;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
@@ -50,5 +51,39 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         db.insert(Constants.TABLE_NAME,null,values);
         Toast.makeText(context,"Data inserted successfully.",Toast.LENGTH_SHORT).show();
+    }
+
+    public ShoppingItem getItem(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                Constants.TABLE_NAME,
+                new String[]{
+                        Constants.COLUMN_ID,
+                        Constants.COLUMN_ITEM_NAME,
+                        Constants.COLUMN_COLOR,
+                        Constants.COLUMN_SIZE,
+                        Constants.COLUMN_ITEM_QUANTITY,
+                        Constants.COLUMN_DATE_ADDED
+                },
+                Constants.COLUMN_ID + "=?",
+                new String[] {String.valueOf(id)},
+                null,
+                null,
+                null,
+                null
+        );
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+            ShoppingItem item = new ShoppingItem();
+
+            item.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.COLUMN_ID))));
+            item.setItemName(cursor.getString(cursor.getColumnIndex(Constants.COLUMN_ITEM_NAME)));
+            item.setItemColor(cursor.getString(cursor.getColumnIndex(Constants.COLUMN_COLOR)));
+            item.setQuantity(cursor.getInt(cursor.getColumnIndex(Constants.COLUMN_ITEM_QUANTITY)));
+            item.setSize(cursor.getInt(cursor.getColumnIndex(Constants.COLUMN_SIZE)));
+
+        }
     }
 }
