@@ -57,6 +57,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         db.insert(Constants.TABLE_NAME,null,values);
         Toast.makeText(context,"Data inserted successfully.",Toast.LENGTH_SHORT).show();
+        db.close();
     }
 
     public ShoppingItem getItem(int id){
@@ -138,7 +139,49 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
             }while(cursor.moveToNext());
         }
-
+        db.close();
         return  result;
+    }
+
+    public int updateItem(ShoppingItem item){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(Constants.COLUMN_ITEM_NAME,item.getItemName());
+        values.put(Constants.COLUMN_COLOR,item.getItemColor());
+        values.put(Constants.COLUMN_ITEM_QUANTITY,item.getQuantity());
+        values.put(Constants.COLUMN_SIZE,item.getSize());
+        values.put(Constants.COLUMN_DATE_ADDED,java.lang.System.currentTimeMillis());
+
+        int columnNumber = db.update(
+                Constants.TABLE_NAME,
+                values,
+                Constants.COLUMN_ID + "=?",
+                new String[] {String.valueOf(item.getId())}
+        );
+
+        Toast.makeText(context,"Data updated successfully.",Toast.LENGTH_SHORT).show();
+        db.close();
+        return columnNumber;
+    }
+
+    public void deleteItem(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(
+                Constants.TABLE_NAME,
+                Constants.COLUMN_ID + "+?",
+                new String[] {String.valueOf(id)}
+        );
+        db.close();
+        Toast.makeText(context,"Data deleted successfully.",Toast.LENGTH_SHORT).show();
+    }
+
+    public int getItemCount() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String countQuery = "SELECT * FROM " + Constants.TABLE_NAME;
+
+        Cursor cursor = db.rawQuery(countQuery,null);
+        return cursor.getCount();
     }
 }
