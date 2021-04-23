@@ -5,9 +5,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.SyncStateContract;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import model.ShoppingItem;
 import util.Constants;
@@ -84,6 +90,55 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             item.setQuantity(cursor.getInt(cursor.getColumnIndex(Constants.COLUMN_ITEM_QUANTITY)));
             item.setSize(cursor.getInt(cursor.getColumnIndex(Constants.COLUMN_SIZE)));
 
+            DateFormat dateFormat = DateFormat.getDateInstance();
+            String formattedDate = dateFormat.format(new Date(cursor.getLong(cursor.getColumnIndex(Constants.COLUMN_DATE_ADDED))).getTime());
+            item.setItemAddedDate(formattedDate);
+            return item;
         }
+
+        return null;
+    }
+
+    public List<ShoppingItem> getAllItems() {
+        List<ShoppingItem> result = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                Constants.TABLE_NAME,
+                new String[]{
+                        Constants.COLUMN_ID,
+                        Constants.COLUMN_ITEM_NAME,
+                        Constants.COLUMN_COLOR,
+                        Constants.COLUMN_SIZE,
+                        Constants.COLUMN_ITEM_QUANTITY,
+                        Constants.COLUMN_DATE_ADDED
+                },
+                null,
+                null,
+                null,
+                null,
+                Constants.COLUMN_DATE_ADDED + " DESC"
+        );
+
+        if(cursor.moveToFirst()){
+            do{
+                ShoppingItem item = new ShoppingItem();
+
+                item.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.COLUMN_ID))));
+                item.setItemName(cursor.getString(cursor.getColumnIndex(Constants.COLUMN_ITEM_NAME)));
+                item.setItemColor(cursor.getString(cursor.getColumnIndex(Constants.COLUMN_COLOR)));
+                item.setQuantity(cursor.getInt(cursor.getColumnIndex(Constants.COLUMN_ITEM_QUANTITY)));
+                item.setSize(cursor.getInt(cursor.getColumnIndex(Constants.COLUMN_SIZE)));
+
+                DateFormat dateFormat = DateFormat.getDateInstance();
+                String formattedDate = dateFormat.format(new Date(cursor.getLong(cursor.getColumnIndex(Constants.COLUMN_DATE_ADDED))).getTime());
+                item.setItemAddedDate(formattedDate);
+
+                result.add(item);
+
+            }while(cursor.moveToNext());
+        }
+
+        return  result;
     }
 }
