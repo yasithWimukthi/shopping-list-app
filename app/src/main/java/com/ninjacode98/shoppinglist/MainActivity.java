@@ -10,11 +10,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import data.DatabaseHandler;
+import model.ShoppingItem;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText itemQuantity;
     private EditText itemColor;
     private EditText itemSize;
+    private DatabaseHandler databaseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        databaseHandler = new DatabaseHandler(this);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +68,17 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                saveShoppingItem();
+                if(
+                        !TextUtils.isEmpty(itemName.getText().toString().trim())
+                        && !TextUtils.isEmpty(itemColor.getText().toString().trim())
+                        && !TextUtils.isEmpty(itemSize.getText().toString().trim())
+                        && !TextUtils.isEmpty(itemQuantity.getText().toString().trim())
+                ){
+                    saveShoppingItem(v);
+                }else{
+                    Snackbar.make(v,"Empty fields not allowed.",Snackbar.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -78,7 +95,16 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void saveShoppingItem(){
+    public void saveShoppingItem(View view){
+        ShoppingItem item = new ShoppingItem();
 
+        item.setItemName(itemName.getText().toString().trim());
+        item.setItemColor(itemColor.getText().toString().trim());
+        item.setQuantity(Integer.parseInt(itemQuantity.getText().toString().trim()));
+        item.setSize(Integer.parseInt(itemSize.getText().toString().trim()));
+
+        databaseHandler.addItem(item);
+
+        Snackbar.make(view,"Item saved.",Snackbar.LENGTH_SHORT).show();
     }
 }
