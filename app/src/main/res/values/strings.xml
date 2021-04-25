@@ -20,4 +20,5 @@
     <string name="item_quantity">Quantity</string>
     <string name="item_date">Date Added</string>
     <string name="item_color">Color</string>
+    <string name="item_size">Size</string>
 </resources>
