@@ -16,4 +16,8 @@
     <string name="colorHint">Color</string>
     <string name="sizeHint">Size</string>
     <string name="save_button">Save</string>
+    <string name="item_name">Item Name</string>
+    <string name="item_quantity">Quantity</string>
+    <string name="item_date">Date Added</string>
+    <string name="item_color">Color</string>
 </resources>

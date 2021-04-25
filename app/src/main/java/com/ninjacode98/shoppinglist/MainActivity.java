@@ -1,5 +1,6 @@
 package com.ninjacode98.shoppinglist;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -106,5 +108,12 @@ public class MainActivity extends AppCompatActivity {
         databaseHandler.addItem(item);
 
         Snackbar.make(view,"Item saved.",Snackbar.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(MainActivity.this,ListActivity.class));
+            }
+        },1000);
     }
 }
