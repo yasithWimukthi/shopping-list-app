@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ninjacode98.shoppinglist.R;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import model.ShoppingItem;
@@ -37,11 +39,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position) {
 
         ShoppingItem item = shoppingItems.get(position);
-        holder.itemName.setText("Item Name : "+item.getItemName());
-        holder.itemSize.setText("Item Size : "+Integer.toString(item.getSize()));
-        holder.dateAdded.setText("Date Added : "+item.getItemAddedDate());
-        holder.itemQuantity.setText("Item Quantity : "+Integer.toString(item.getQuantity()));
-        holder.itemColor.setText("Item Color : "+item.getItemColor());
+        holder.itemName.setText(MessageFormat.format("Item Name : {0}", item.getItemName()));
+        holder.itemSize.setText(MessageFormat.format("Item Size : {0}", Integer.toString(item.getSize())));
+        holder.dateAdded.setText(MessageFormat.format("Date Added : {0}", item.getItemAddedDate()));
+        holder.itemQuantity.setText(MessageFormat.format("Item Quantity : {0}", Integer.toString(item.getQuantity())));
+        holder.itemColor.setText(MessageFormat.format("Item Color : {0}", item.getItemColor()));
 
     }
 
