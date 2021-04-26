@@ -37,11 +37,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position) {
 
         ShoppingItem item = shoppingItems.get(position);
-        holder.itemName.setText(item.getItemName());
-        holder.itemSize.setText(item.getSize());
-        holder.dateAdded.setText(item.getItemAddedDate());
-        holder.itemQuantity.setText(item.getQuantity());
-        holder.itemColor.setText(item.getItemColor());
+        holder.itemName.setText("Item Name : "+item.getItemName());
+        holder.itemSize.setText("Item Size : "+Integer.toString(item.getSize()));
+        holder.dateAdded.setText("Date Added : "+item.getItemAddedDate());
+        holder.itemQuantity.setText("Item Quantity : "+Integer.toString(item.getQuantity()));
+        holder.itemColor.setText("Item Color : "+item.getItemColor());
 
     }
 
