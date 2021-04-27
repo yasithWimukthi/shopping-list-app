@@ -1,5 +1,6 @@
 package ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private Context context;
     private List<ShoppingItem> shoppingItems;
+    private AlertDialog.Builder builder;
+    private AlertDialog dialog;
+    private LayoutInflater inflater;
 
     public RecyclerViewAdapter(Context context, List<ShoppingItem> shoppingItems) {
         this.context = context;
@@ -96,10 +100,36 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
 
         public void deleteItem(int id) {
-            DatabaseHandler dbHandler = new DatabaseHandler(context);
-            dbHandler.deleteItem(id);
-            shoppingItems.remove(getAdapterPosition());
-            notifyItemRemoved(getAdapterPosition());
+
+            builder = new AlertDialog.Builder(context);
+            inflater = LayoutInflater.from(context);
+            View confirmationPopup = inflater.inflate(R.layout.confirm_popup,null);
+
+            Button noBtn = confirmationPopup.findViewById(R.id.conf_no_btn);
+            Button okBtn = confirmationPopup.findViewById(R.id.conf_ok_btn);
+
+            builder.setView(confirmationPopup);
+            dialog = builder.create();
+            dialog.show();
+
+            noBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+
+            okBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DatabaseHandler dbHandler = new DatabaseHandler(context);
+                    dbHandler.deleteItem(id);
+                    shoppingItems.remove(getAdapterPosition());
+                    notifyItemRemoved(getAdapterPosition());
+                    dialog.dismiss();
+                }
+            });
         }
     }
 }
