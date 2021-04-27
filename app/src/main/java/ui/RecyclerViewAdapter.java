@@ -16,6 +16,7 @@ import com.ninjacode98.shoppinglist.R;
 import java.text.MessageFormat;
 import java.util.List;
 
+import data.DatabaseHandler;
 import model.ShoppingItem;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -62,6 +63,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public Button editButton;
         public Button deleteButton;
         public int id;
+        int position;
 
         public ViewHolder(@NonNull View itemView,Context ctx) {
             super(itemView);
@@ -86,9 +88,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                 @Override
                 public void onClick(View v) {
-
+                    position = getAdapterPosition();
+                    ShoppingItem item = shoppingItems.get(position);
+                    deleteItem(item.getId());
                 }
             });
+        }
+
+        public void deleteItem(int id) {
+            DatabaseHandler dbHandler = new DatabaseHandler(context);
+            dbHandler.deleteItem(id);
+            shoppingItems.remove(getAdapterPosition());
+            notifyItemRemoved(getAdapterPosition());
         }
     }
 }
