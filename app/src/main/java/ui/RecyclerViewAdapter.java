@@ -84,7 +84,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             editButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    editItem();
                 }
             });
 
@@ -97,6 +97,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     deleteItem(item.getId());
                 }
             });
+        }
+
+        private void editItem() {
+            builder = new AlertDialog.Builder(context);
+            inflater = LayoutInflater.from(context);
+            View popup = inflater.inflate(R.layout.popup,null);
+
+            itemName = popup.findViewById(R.id.itemNameEditText);
+            itemQuantity = popup.findViewById(R.id.quantityEditText);
+            itemColor = popup.findViewById(R.id.quantityEditText);
+            itemSize = popup.findViewById(R.id.sizeEditText);
+            saveButton = popup.findViewById(R.id.saveBtn);
+
         }
 
         public void deleteItem(int id) {
